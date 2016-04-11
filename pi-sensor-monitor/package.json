@@ -1,0 +1,14 @@
+{
+  "name": "pi-sensor-monitor",
+  "version": "1.0.0",
+  "description": "PiSensorMonitor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bartek Zawadka",
+  "license": "ISC",
+  "dependencies": {
+    "restify": "^4.0.4"
+  }
+}
