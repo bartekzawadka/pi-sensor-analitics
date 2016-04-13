@@ -6,7 +6,10 @@
 module.exports = function(sequelize, DataTypes){
 
     var Sensor = sequelize.define("Sensor", {
-        name: DataTypes.STRING
+        name: {
+            type: DataTypes.STRING,
+            unique: true
+        }
     }, {
         classMethods:{
             associate: function(models){
@@ -17,17 +20,3 @@ module.exports = function(sequelize, DataTypes){
 
     return Sensor;
 };
-
-// module.exports = function(sequelize, DataTypes) {
-//     var User = sequelize.define("User", {
-//         username: DataTypes.STRING
-//     }, {
-//         classMethods: {
-//             associate: function(models) {
-//                 User.hasMany(models.Task)
-//             }
-//         }
-//     });
-//
-//     return User;
-// };

@@ -5,8 +5,24 @@
 
 module.exports = function(sequelize, DataTypes) {
     var Log = sequelize.define("Log", {
-        temperature: DataTypes.FLOAT,
-        humidity: DataTypes.FLOAT
+        temperature: {
+            type:DataTypes.FLOAT,
+            allowNull: false
+        },
+        humidity: {
+            type: DataTypes.FLOAT,
+            allowNull: false
+        },
+        activeFansNo: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0
+        },
+        rpm:{
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0
+        }
     }, {
         classMethods: {
             associate: function(models) {
