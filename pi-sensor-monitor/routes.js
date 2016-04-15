@@ -4,5 +4,5 @@
 var server = require('./server');
 var api = require('./api');
 
-server.get('/api/datasets/temperature/all/:dateFrom/:dateTo', api.datasets.temperature.all);
-server.get('/api/datasets/temperature/sensor/:sensorId/:dateFrom/:dateTo', api.datasets.temperature.sensor);
+server.get('/api/datasets/temperature/:arguments', api.datasets.temperature.all);
+//server.get('/api/datasets/temperature/sensor/:params', api.datasets.temperature.sensor);
