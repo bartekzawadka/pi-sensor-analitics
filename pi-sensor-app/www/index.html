@@ -7,6 +7,7 @@
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/icons.css" rel="stylesheet">
     <link href="lib/angular-material/angular-material.min.css" rel="stylesheet">
     <link href="lib/angular-chart.js/dist/angular-chart.css" rel="stylesheet">
 
@@ -61,11 +62,12 @@
 
     <section layout="row" flex ng-controller="SideNavCtrl">
       <md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="sn">
-        <md-toolbar class="md-theme-indigo">
-          <h1 class="md-toolbar-tools">Sidenav Left</h1>
-          <span flex></span>
+        <md-toolbar class="md-theme-indigo md-toolbar-tools">
+          <h2>
+            <span>Sidenav Left</span>
+          </h2>
           <md-button class="md-icon-button" aria-label="Close" ng-click="close()">
-            <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+            <md-icon md-svg-icon="img/icons/back.svg"></md-icon>
           </md-button>
         </md-toolbar>
         <md-content layout-padding></md-content>
