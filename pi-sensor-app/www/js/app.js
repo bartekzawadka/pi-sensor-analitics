@@ -3,7 +3,122 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic'])
+angular.module('starter', ['ionic', 'ngMaterial', 'chart.js'])
+
+.controller('MainCtrl', function($scope, $http, $mdSidenav){
+  function buildToggler(navID) {
+    return function() {
+      // Component lookup should always be available since we are not using `ng-if`
+      $mdSidenav(navID)
+        .toggle();
+    }
+  }
+
+  Date.prototype.yyyymmddhhmm = function() {
+    var yyyy = this.getFullYear();
+    var mm = this.getMonth() < 9 ? "0" + (this.getMonth() + 1) : (this.getMonth() + 1); // getMonth() is zero-based
+    var dd  = this.getDate() < 10 ? "0" + this.getDate() : this.getDate();
+    var hh = this.getHours() < 10 ? "0" + this.getHours() : this.getHours();
+    var min = this.getMinutes() < 10 ? "0" + this.getMinutes() : this.getMinutes();
+    return "".concat(yyyy+'-').concat(mm+'-').concat(dd+' ').concat(hh+':').concat(min);
+  };
+
+  $scope.aaa = buildToggler('sn');
+
+  // $scope.toggleSideNav = function(){
+  //   return function(){
+  //     $mdSidenav('appSideNav').toggle();
+  //   }
+  // };
+
+  // $http.get("http://192.168.1.106:888/get_temp_hum").then(function (a) {
+  //   console.log(a);
+  // });
+
+  var query = {
+    "arguments": {
+      "dateFrom": new Date('2016-04-13').toISOString(),
+      "dateTo": new Date('2016-04-16').toISOString(),
+      "fields": ["temperature"],
+      //"sensor":"Sensor1"
+    }
+  };
+
+  var queryj = JSON.stringify(query);
+
+  console.log("%j", query);
+
+
+  $http({
+    url: "http://localhost:8080/api/datasets/",
+    method: 'GET',
+    data: query,
+    body: query,
+    params: query,
+    headers: {'Content-Type':'application/json'}
+  }).then(function(value){
+
+    var data1 = [];
+    var data2 = [];
+    var labels = [];
+
+    for(var i in value.data){
+      if(value.data.hasOwnProperty(i)) {
+
+        if(value.data[i]["Sensor"]["name"]){
+          var n = value.data[i]["Sensor"]["name"];
+          if(n == "Sensor1"){
+            data1.push(value.data[i]["temperature"]);
+            labels.push(value.data[i]["updatedAt"]);
+          }else{
+            data2.push(value.data[i]["temperature"]);
+          }
+
+        }
+
+      }
+    }
+
+    var labelsFormatted = [];
+    for(var key in labels){
+      if(labels.hasOwnProperty(key)){
+        var df = new Date(labels[key]);
+        labelsFormatted.push(df.yyyymmddhhmm());
+      }
+    }
+
+    var json = {
+      "series": ["SeriesA", "SeriesB"],
+      "data":[data1, data2],
+      "labels": labelsFormatted
+    };
+
+    $scope.chartInfo = json;
+
+    // var labels = {};
+    // var data = {};
+    // for(var i in value){
+    //   if(value.hasOwnProperty(i)) {
+    //     labels.push(value[i]["updatedAt"]);
+    //     data.push(value[i]["temperature"]);
+    //   }
+    // }
+    //
+    // $scope.labels = labels;
+    // $scope.data = data;
+    //
+    // console.log("%j", data);
+
+  }, function(e){
+    console.log(e);
+  });
+})
+
+  .controller('SideNavCtrl', function($scope, $mdSidenav){
+    $scope.close = function(){
+      $mdSidenav('sn').close();
+    }
+  })
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -22,3 +137,6 @@ angular.module('starter', ['ionic'])
     }
   });
 })
+  .config(function (ChartJsProvider) {
+    ChartJsProvider.setOptions({ colors : [ '#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
+  });

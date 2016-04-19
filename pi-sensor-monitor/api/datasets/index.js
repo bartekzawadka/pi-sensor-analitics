@@ -45,8 +45,26 @@ exports.getDataSets = function getDataSets(req, res){
         include:[includeElement],
         order: "\"updatedAt\""
     }).then(function(item){
+        //  res.writeHead(200, {"Content-Type": "application/json"});
+        // // res.end(JSON.stringify(item));
+        // res.writeHead('Access-Control-Allow-Origin', '*');
+        //
+        // // Request methods you wish to allow
+        // res.writeHead('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+        //
+        // // Request headers you wish to allow
+        // res.writeHead('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+        //
+        // // Set to true if you need the website to include cookies in the requests sent
+        // // to the API (e.g. in case you use sessions)
+        // res.writeHead('Access-Control-Allow-Credentials', true);
+        // res.writeHead(200);
+        //res.header('Access-Control-Allow-Origin', '*');
         res.send(item);
+        // res.end(item);
+        console.log(res);
     }).catch(function(error){
         res.send({error: error});
+        console.log(error);
     });
 };
