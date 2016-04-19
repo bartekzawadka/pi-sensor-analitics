@@ -25,29 +25,14 @@ angular.module('starter', ['ionic', 'ngMaterial', 'chart.js'])
 
   $scope.aaa = buildToggler('sn');
 
-  // $scope.toggleSideNav = function(){
-  //   return function(){
-  //     $mdSidenav('appSideNav').toggle();
-  //   }
-  // };
-
-  // $http.get("http://192.168.1.106:888/get_temp_hum").then(function (a) {
-  //   console.log(a);
-  // });
-
   var query = {
     "arguments": {
-      "dateFrom": new Date('2016-04-13').toISOString(),
-      "dateTo": new Date('2016-04-16').toISOString(),
+      "dateFrom": new Date('2016-04-19').toISOString(),
+      "dateTo": new Date('2016-04-20').toISOString(),
       "fields": ["temperature"],
       //"sensor":"Sensor1"
     }
   };
-
-  var queryj = JSON.stringify(query);
-
-  console.log("%j", query);
-
 
   $http({
     url: "http://localhost:8080/api/datasets/",
@@ -94,21 +79,7 @@ angular.module('starter', ['ionic', 'ngMaterial', 'chart.js'])
     };
 
     $scope.chartInfo = json;
-
-    // var labels = {};
-    // var data = {};
-    // for(var i in value){
-    //   if(value.hasOwnProperty(i)) {
-    //     labels.push(value[i]["updatedAt"]);
-    //     data.push(value[i]["temperature"]);
-    //   }
-    // }
-    //
-    // $scope.labels = labels;
-    // $scope.data = data;
-    //
-    // console.log("%j", data);
-
+    
   }, function(e){
     console.log(e);
   });
