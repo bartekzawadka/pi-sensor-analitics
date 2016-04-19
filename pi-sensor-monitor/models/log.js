@@ -31,6 +31,11 @@ module.exports = function(sequelize, DataTypes) {
                         allowNull: false
                     }
                 });
+                Log.belongsTo(models.Timestamp, {
+                    foreignKey: {
+                        allowNull: false
+                    }
+                });
             }
         }
     });

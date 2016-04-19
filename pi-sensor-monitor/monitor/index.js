@@ -12,6 +12,7 @@ var client = restify.createJsonClient({
     url: util.format("http://%s:%s",nconf.get("pi-sensor-service:address"), nconf.get("pi-sensor-service:port"))
 });
 
+//"request-frequency-cron": "0 */10 * * * *"
 new cronJob(nconf.get("pi-sensor-service:request-frequency-cron"), function(){
     client.get('/get_temp_hum', function (err, req, res, obj) {
         console.log('Server returned: %j', obj);
@@ -20,37 +21,46 @@ new cronJob(nconf.get("pi-sensor-service:request-frequency-cron"), function(){
             return;
         }
 
-        for (var sensor in obj){
-            writeSensorData(sensor, obj);
-        }
+        models.Timestamp.create().then(function(timestamp) {
+
+            for (var sensor in obj){
+                writeSensorData(sensor, obj, timestamp.id);
+            }
+
+        }).catch(function(error){
+            console.log("Timestamp adding failed. Record registration failed:");
+            console.log(error);
+        });
 
     });
 }, null, true);
 
-function writeSensorData(sensorName, data){
+function writeSensorData(sensorName, data, timestampId){
     models.Sensor.findOne({where: sequelize.where(sequelize.fn('lower', sequelize.col('name')), sensorName.toLowerCase()), attributes: ['id']}).then(function(sensorObj){
 
-        if(!sensorObj || !sensorObj.id){
-            console.log("'%s' not found in database.", sensorName);
-            console.log("Creating sensor '%s' entry", sensorName);
-            models.Sensor.create({
-                name: sensorName
-            }).then(function(addedSensor){
-                console.log("Sensor '%s' entry added successfully", sensorName);
+            if(!sensorObj || !sensorObj.id){
+                console.log("'%s' not found in database.", sensorName);
+                console.log("Creating sensor '%s' entry", sensorName);
+                models.Sensor.create({
+                    name: sensorName
+                }).then(function(addedSensor){
+                    console.log("Sensor '%s' entry added successfully", sensorName);
 
-                writeLogRecord(sensorName, data, addedSensor.id);
-            }).catch(function(error){
-                console.log("Sensor '%s' entry adding failed!", sensorName);
-                console.log(error);
-            });
-        }else{
-            writeLogRecord(sensorName, data, sensorObj.id);
-        }
+                    writeLogRecord(sensorName, data, addedSensor.id, timestampId);
+                }).catch(function(error){
+                    console.log("Sensor '%s' entry adding failed!", sensorName);
+                    console.log(error);
+                });
+            }else{
+                writeLogRecord(sensorName, data, sensorObj.id, timestampId);
+            }
+
+
 
     })
 }
 
-function writeLogRecord(key, obj, sensorId) {
+function writeLogRecord(key, obj, sensorId, timestampId) {
 
     if(!obj[key])
     {
@@ -71,6 +81,7 @@ function writeLogRecord(key, obj, sensorId) {
 
     models.Log.create({
         "SensorId": sensorId,
+        "TimestampId": timestampId,
         temperature: obj[key].temperature,
         humidity: obj[key].humidity
     }).catch(function(error){
