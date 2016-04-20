@@ -37,7 +37,10 @@ module.exports = function(sequelize, DataTypes) {
                     }
                 });
             }
-        }
+        },
+        timestamps: true,
+        updatedAt: false,
+        createdAt: "markTimestamp"
     });
 
     return Log;

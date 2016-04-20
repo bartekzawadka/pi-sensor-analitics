@@ -15,7 +15,6 @@ var client = restify.createJsonClient({
 //"request-frequency-cron": "0 */10 * * * *"
 new cronJob(nconf.get("pi-sensor-service:request-frequency-cron"), function(){
     client.get('/get_temp_hum', function (err, req, res, obj) {
-        console.log('Server returned: %j', obj);
 
         if(!obj){
             return;
@@ -54,9 +53,6 @@ function writeSensorData(sensorName, data, timestampId){
             }else{
                 writeLogRecord(sensorName, data, sensorObj.id, timestampId);
             }
-
-
-
     })
 }
 

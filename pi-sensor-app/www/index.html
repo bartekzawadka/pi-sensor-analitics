@@ -32,87 +32,10 @@
   </head>
   <body ng-controller="MainCtrl">
 
-    <md-toolbar class="md-primary">
-      <div class="md-toolbar-tools">
-        <md-button class="md-icon-button" aria-label="Settings" ng-click="aaa()">
-          <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
-        </md-button>
-        <h2>
-          <span>Toolbar with Standard Buttons</span>
-        </h2>
-        <!--<span flex></span>-->
-        <!--<md-button class="md-raised" aria-label="Learn More">-->
-        <!--Learn More-->
-        <!--</md-button>-->
-        <!--<md-button class="md-fab md-mini" aria-label="Favorite">-->
-        <!--<md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>-->
-        <!--</md-button>-->
-      </div>
-    </md-toolbar>
+    <div ng-include="'toolbar.html'"></div>
 
-    <md-content>
-      <!--<canvas id="line" class="chart chart-line" chart-data="data"-->
-              <!--chart-labels="labels" width="400" height="400">-->
-      <!--</canvas>-->
-      <!--<cjs-line dataset="someData"></cjs-line>-->
-      <div class="graph-display">
-        <canvas id="line" class="chart chart-line" data="chartInfo.data" labels="chartInfo.labels"></canvas>
-      </div>
-    </md-content>
+    <div ng-include="'charts.html'"></div>
 
-    <section layout="row" flex ng-controller="SideNavCtrl">
-      <md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="sn">
-        <md-toolbar class="md-theme-indigo md-toolbar-tools">
-          <h2>
-            <span>Sidenav Left</span>
-          </h2>
-          <md-button class="md-icon-button" aria-label="Close" ng-click="close()">
-            <md-icon md-svg-icon="img/icons/back.svg"></md-icon>
-          </md-button>
-        </md-toolbar>
-        <md-content layout-padding></md-content>
-      </md-sidenav>
-    </section>
-
-  <!--<md-toolbar class="md-primary">-->
-    <!--<div class="md-toolbar-tools">-->
-      <!--<md-button aria-label="Go Back">-->
-        <!--Go Back-->
-      <!--</md-button>-->
-      <!--<h2>-->
-        <!--<span>Toolbar with Standard Buttons</span>-->
-      <!--</h2>-->
-      <!--<span flex></span>-->
-      <!--<md-button class="md-raised" aria-label="Learn More">-->
-        <!--Learn More-->
-      <!--</md-button>-->
-      <!--<md-button class="md-fab md-mini" aria-label="Favorite">-->
-        <!--<md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>-->
-      <!--</md-button>-->
-    <!--</div>-->
-  <!--</md-toolbar>-->
-    <!--<div layout="row" layout-align="center center">-->
-      <!--<md-content>-->
-        <!--<md-toolbar class="md-accent">-->
-          <!--<div class="md-toolbar-tools">-->
-            <!--<h2>-->
-              <!--<span>Pi Sensor App</span>-->
-            <!--</h2>-->
-          <!--</div>-->
-        <!--</md-toolbar>-->
-        <!--&lt;!&ndash;<div class="md-toolbar-tools">&ndash;&gt;-->
-          <!--&lt;!&ndash;<h2><span>Pi Sensor App</span></h2>&ndash;&gt;-->
-        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--</md-content>-->
-    <!--</div>-->
-
-
-    <!--<ion-pane>-->
-      <!--<ion-header-bar class="bar-stable">-->
-        <!--<h1 class="title">Ionic Blank Starter</h1>-->
-      <!--</ion-header-bar>-->
-      <!--<ion-content>-->
-      <!--</ion-content>-->
-    <!--</ion-pane>-->
+    <div ng-include="'side-menu.html'"></div>
   </body>
 </html>

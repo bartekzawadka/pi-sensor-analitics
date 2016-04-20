@@ -1,0 +1,43 @@
+<section layout="row" flex ng-controller="SideNavCtrl">
+  <md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="sn">
+    <md-toolbar class="md-theme-indigo md-toolbar-tools toolbar">
+      <h3>
+        <span>Ustawienia</span>
+      </h3>
+      <span flex></span>
+      <md-button class="md-icon-button" aria-label="Close" ng-click="close()">
+        <md-tooltip>
+          Zamknij
+        </md-tooltip>
+        <md-icon md-svg-icon="img/icons/back.svg"></md-icon>
+      </md-button>
+    </md-toolbar>
+    <md-content layout-padding>
+        <div>
+          <h5>Data od:</h5>
+          <md-datepicker ng-model="myDate" md-placeholder="Data od"></md-datepicker>
+          <h5>Data do:</h5>
+          <md-datepicker ng-model="myDate" md-placeholder="Data od"></md-datepicker>
+        </div>
+        <md-divider></md-divider>
+      <md-list ng-cloak>
+        <md-subheader class="md-no-sticky">Dane do wykresów</md-subheader>
+        <md-list-item ng-repeat="setting in settings">
+          <p> {{ setting.name }} </p>
+          <md-switch class="md-warn" ng-model="setting.enabled"></md-switch>
+        </md-list-item>
+      </md-list>
+      <md-list ng-cloak>
+        <md-subheader class="md-no-sticky">Wybór czujników</md-subheader>
+        <md-list-item ng-repeat="sensor in sensors">
+          <p> {{ sensor.name }} </p>
+          <md-switch class="md-warn" ng-model="sensor.enabled"></md-switch>
+        </md-list-item>
+      </md-list>
+      <md-divider></md-divider>
+      <div layout="row" layout-align="end center">
+        <md-button class="md-raised md-primary" ng-click="ok()">OK</md-button>
+      </div>
+    </md-content>
+  </md-sidenav>
+</section>

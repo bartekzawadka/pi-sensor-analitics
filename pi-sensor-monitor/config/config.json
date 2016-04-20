@@ -4,21 +4,24 @@
     "password": "psql_test",
     "database": "psa_dev",
     "host": "192.168.1.113",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "timezone": "Poland"
   },
   "test": {
     "username": "psql_test",
     "password": "psql_test",
     "database": "psa_test",
     "host": "192.168.1.113",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "timezone": "Poland"
   },
   "production": {
     "username": "psql_test",
     "password": "psql_test",
     "database": "psa_prod",
     "host": "192.168.1.113",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "timezone": "Poland"
   },
   "pi-sensor-service" : {
     "address": "192.168.1.106",

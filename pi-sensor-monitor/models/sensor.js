@@ -15,7 +15,8 @@ module.exports = function(sequelize, DataTypes){
             associate: function(models){
                 Sensor.hasMany(models.Log)
             }
-        }
+        },
+        timestamps: false
     });
 
     return Sensor;
