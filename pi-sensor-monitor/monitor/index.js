@@ -12,27 +12,32 @@ var client = restify.createJsonClient({
     url: util.format("http://%s:%s",nconf.get("pi-sensor-service:address"), nconf.get("pi-sensor-service:port"))
 });
 
-//"request-frequency-cron": "0 */10 * * * *"
-new cronJob(nconf.get("pi-sensor-service:request-frequency-cron"), function(){
-    client.get('/get_temp_hum', function (err, req, res, obj) {
+if(nconf.get("registration-enabled")) {
 
-        if(!obj){
-            return;
-        }
+    console.log("PiSensorMonitor registration module started");
 
-        models.Timestamp.create().then(function(timestamp) {
+    //"request-frequency-cron": "0 */10 * * * *"
+    new cronJob(nconf.get("pi-sensor-service:request-frequency-cron"), function(){
+        client.get('/get_temp_hum', function (err, req, res, obj) {
 
-            for (var sensor in obj){
-                writeSensorData(sensor, obj, timestamp.id);
+            if(!obj){
+                return;
             }
 
-        }).catch(function(error){
-            console.log("Timestamp adding failed. Record registration failed:");
-            console.log(error);
-        });
+            models.Timestamp.create().then(function(timestamp) {
 
-    });
-}, null, true);
+                for (var sensor in obj){
+                    writeSensorData(sensor, obj, timestamp.id);
+                }
+
+            }).catch(function(error){
+                console.log("Timestamp adding failed. Record registration failed:");
+                console.log(error);
+            });
+
+        });
+    }, null, true);
+}
 
 function writeSensorData(sensorName, data, timestampId){
     models.Sensor.findOne({where: sequelize.where(sequelize.fn('lower', sequelize.col('name')), sensorName.toLowerCase()), attributes: ['id']}).then(function(sensorObj){

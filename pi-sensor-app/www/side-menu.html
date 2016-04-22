@@ -12,23 +12,31 @@
         <md-icon md-svg-icon="img/icons/back.svg"></md-icon>
       </md-button>
     </md-toolbar>
-    <md-content layout-padding>
-        <div>
-          <h5>Data od:</h5>
+    <div class="side-menu">
+        <div class="side-menu-dates" layout="row" layout-align="left center">
+          <md-subheader>Data od:</md-subheader>
           <md-datepicker ng-model="myDate" md-placeholder="Data od"></md-datepicker>
-          <h5>Data do:</h5>
+        </div>
+      <div class="side-menu-dates" layout="row" layout-align="left center">
+          <md-subheader>Data do:</md-subheader>
           <md-datepicker ng-model="myDate" md-placeholder="Data od"></md-datepicker>
         </div>
         <md-divider></md-divider>
-      <md-list ng-cloak>
-        <md-subheader class="md-no-sticky">Dane do wykresów</md-subheader>
+      <md-list class="side-menu-list" ng-cloak>
+        <md-subheader class="md-no-sticky">
+          Dane do wykresów
+          <md-tooltip>Wybierz zestawy danych do wykresów</md-tooltip>
+        </md-subheader>
         <md-list-item ng-repeat="setting in settings">
           <p> {{ setting.name }} </p>
           <md-switch class="md-warn" ng-model="setting.enabled"></md-switch>
         </md-list-item>
       </md-list>
-      <md-list ng-cloak>
-        <md-subheader class="md-no-sticky">Wybór czujników</md-subheader>
+      <md-list class="side-menu-list" ng-cloak>
+        <md-subheader>
+          Wybór czujników
+          <md-tooltip>Wybierz czujniki, których odczyty mają być prezentowane</md-tooltip>
+        </md-subheader>
         <md-list-item ng-repeat="sensor in sensors">
           <p> {{ sensor.name }} </p>
           <md-switch class="md-warn" ng-model="sensor.enabled"></md-switch>
@@ -38,6 +46,6 @@
       <div layout="row" layout-align="end center">
         <md-button class="md-raised md-primary" ng-click="ok()">OK</md-button>
       </div>
-    </md-content>
+    </div>
   </md-sidenav>
 </section>
