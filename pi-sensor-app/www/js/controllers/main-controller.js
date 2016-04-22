@@ -1,7 +1,7 @@
 /**
  * Created by barte_000 on 2016-04-22.
  */
-angular.module('starter').controller('MainCtrl', function($scope, $http, $mdSidenav){
+angular.module('starter').controller('MainCtrl', function($scope, $http, $mdSidenav, SettingsService){
 
   $scope.getDataEnabled = true;
   $scope.fieldsToQuery = [];
@@ -37,11 +37,21 @@ angular.module('starter').controller('MainCtrl', function($scope, $http, $mdSide
 
     $scope.getDataEnabled = false;
 
+    var fieldsToQuery = [];
+    var lastSettings = SettingsService.getLastSettings();
+    for(var k in lastSettings){
+      if(lastSettings.hasOwnProperty(k)){
+        if(lastSettings[k]["enabled"]){
+          fieldsToQuery.push(lastSettings[k]["id"]);
+        }
+      }
+    }
+
     var query = {
       "arguments": {
         "dateFrom": $scope.dateFrom,
         "dateTo": $scope.dateTo,
-        "fields": $scope.fieldsToQuery
+        "fields": fieldsToQuery
       }
     };
 
