@@ -3,3 +3,4 @@
  */
 exports.datasets = require('./datasets');
 exports.sensors = require('./sensors');
+exports.fields = require('./parameters');

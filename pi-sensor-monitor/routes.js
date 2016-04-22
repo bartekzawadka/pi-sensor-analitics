@@ -7,3 +7,4 @@ var api = require('./api');
 server.get('/api/datasets/:arguments', api.datasets.getDataSets);
 server.get('/api/sensors', api.sensors.all);
 server.get('/api/sensor/:id', api.sensors.sensor);
+server.get('/api/parameters', api.fields.getParameters);
