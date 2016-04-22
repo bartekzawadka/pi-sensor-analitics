@@ -4,6 +4,7 @@
 angular.module('starter').controller('MainCtrl', function($scope, $http, $mdSidenav){
 
   $scope.getDataEnabled = true;
+  $scope.fieldsToQuery = [];
 
   function buildToggler(navID) {
     return function() {
@@ -32,7 +33,17 @@ angular.module('starter').controller('MainCtrl', function($scope, $http, $mdSide
 
   function getData(){
 
+    console.log("GET DATA FIRED!");
+
     $scope.getDataEnabled = false;
+
+    var query = {
+      "arguments": {
+        "dateFrom": $scope.dateFrom,
+        "dateTo": $scope.dateTo,
+        "fields": $scope.fieldsToQuery
+      }
+    };
 
     $http({
       url: "http://localhost:8080/api/datasets/",
