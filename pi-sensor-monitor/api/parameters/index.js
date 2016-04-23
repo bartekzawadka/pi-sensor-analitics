@@ -5,7 +5,7 @@ var models = require('../../models');
 var seq = require('sequelize');
 
 exports.getParameters = function getFields(req, res){
-    var Log = models.Log.build({dupa: "asd"});
+    var Log = models.Log.build();
     var fields = Object.getPrototypeOf(Log).attributes;
 
     var result = [];

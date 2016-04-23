@@ -60,6 +60,8 @@ exports.getDataSets = function getDataSets(req, res){
             date: []
         };
 
+        var sensorData = {};
+
         for(var key in item){
             if(item.hasOwnProperty(key)) {
                 for (var fieldKey in attrs) {
@@ -70,9 +72,17 @@ exports.getDataSets = function getDataSets(req, res){
                         // If so, then we push. Otherwise, we create one and push :)
                         if (item[key][attrs[fieldKey]]) {
                             if(!resData[attrs[fieldKey]]){
-                                resData[attrs[fieldKey]] = [];
+                                resData[attrs[fieldKey]] = {};
                             }
-                            resData[attrs[fieldKey]].push(item[key][attrs[fieldKey]]);
+
+                            //
+                            sensorData = item[key]["Sensor"];
+
+                            if(!resData[attrs[fieldKey]][sensorData["name"]]){
+                                resData[attrs[fieldKey]][sensorData["name"]] = [];
+                            }
+
+                            resData[attrs[fieldKey]][sensorData["name"]].push(item[key][attrs[fieldKey]]);
                         }
                     }
                 }
