@@ -1,5 +1,6 @@
-<md-content layout-padding>
-  <div class="graph-display">
-    <canvas id="line" class="chart chart-line" data="chartInfo.data" labels="chartInfo.labels"></canvas>
+<md-content flex class="md-padding">
+  <div class="graph-display" ng-repeat="chart in charts" layout-padding>
+    <canvas id="chart.name" class="chart chart-line" chart-data="chart.data" chart-labels="chart.labels" chart-series="chart.series"></canvas>
   </div>
 </md-content>
+

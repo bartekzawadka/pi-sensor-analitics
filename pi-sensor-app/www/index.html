@@ -15,15 +15,13 @@
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
   </head>
-  <body ng-controller="MainCtrl">
+  <body ng-controller="MainCtrl" layout="column">
 
     <div ng-include="'toolbar.html'"></div>
 
-    <div ng-include="'charts.html'"></div>
+    <div layout="row" ng-include="'charts.html'" flex></div>
 
     <div ng-include="'side-menu.html'"></div>
-
-
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>

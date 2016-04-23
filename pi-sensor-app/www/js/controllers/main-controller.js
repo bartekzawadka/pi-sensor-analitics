@@ -24,8 +24,45 @@ angular.module('starter').controller('MainCtrl', function($scope, $http, $mdSide
     getData();
   };
 
-  function loadDataset(){
-    
+  function loadDataset(dates, parameterData, parameterName){
+
+    if(!dates || !parameterData || !parameterName)
+      return;
+
+    var chartInfo = {
+      "labels": dates,
+      "data": [],
+      "series": [],
+      "name": parameterName
+    };
+
+    for(var x in parameterData){
+      if(parameterData.hasOwnProperty(x)){
+        chartInfo.series.push(x);
+        chartInfo.data.push(parameterData[x]);
+      }
+    }
+
+    if(!$scope.charts){
+      $scope.charts = {};
+    }
+
+    $scope.charts[parameterName] = chartInfo;
+  }
+
+  function resetCharts(){
+    var filters = FiltersService.getFilters();
+
+    if(!filters || !filters.parameters)
+      return;
+
+    $scope.charts = {};
+
+    // for(var k in filters.parameters){
+    //   if(filters.parameters.hasOwnProperty(k)){
+    //     $scope[filters.parameters[k]["id"]] = {}; // reseting old chart data or creating new if not existing
+    //   }
+    // }
   }
 
   function getData(){
@@ -53,6 +90,19 @@ angular.module('starter').controller('MainCtrl', function($scope, $http, $mdSide
       }
     };
 
+    if(lastFilters.hasOwnProperty("sensors")) {
+      var sensorsToRequest = [];
+      for (var k in lastFilters.sensors){
+        if(lastFilters.sensors.hasOwnProperty(k)){
+          if(lastFilters.sensors[k].enabled) {
+            sensorsToRequest.push(lastFilters.sensors[k].name);
+          }
+        }
+      }
+
+      query.arguments["sensors"] = sensorsToRequest;
+    }
+
     $http({
       url: "http://localhost:8080/api/datasets/",
       method: 'GET',
@@ -61,43 +111,65 @@ angular.module('starter').controller('MainCtrl', function($scope, $http, $mdSide
       params: query,
       headers: {'Content-Type':'application/json'}
     }).then(function(value){
+      //
+      // var data1 = [];
+      // var data2 = [];
+      // var labels = [];
+      //
+      // for(var i in value.data){
+      //   if(value.data.hasOwnProperty(i)) {
+      //
+      //     if(value.data[i]["Sensor"]["name"]){
+      //       var n = value.data[i]["Sensor"]["name"];
+      //       if(n == "Sensor1"){
+      //         data1.push(value.data[i]["temperature"]);
+      //         labels.push(value.data[i]["updatedAt"]);
+      //       }else{
+      //         data2.push(value.data[i]["temperature"]);
+      //       }
+      //
+      //     }
+      //
+      //   }
+      // }
 
-      var data1 = [];
-      var data2 = [];
-      var labels = [];
+      resetCharts();
 
-      for(var i in value.data){
-        if(value.data.hasOwnProperty(i)) {
+      var data = value.data;
+      if(!data)
+        return;
 
-          if(value.data[i]["Sensor"]["name"]){
-            var n = value.data[i]["Sensor"]["name"];
-            if(n == "Sensor1"){
-              data1.push(value.data[i]["temperature"]);
-              labels.push(value.data[i]["updatedAt"]);
-            }else{
-              data2.push(value.data[i]["temperature"]);
-            }
-
-          }
-
-        }
-      }
-
+      // Formatting labels:
       var labelsFormatted = [];
-      for(var key in labels){
-        if(labels.hasOwnProperty(key)){
-          var df = new Date(labels[key]);
+      for(var k in data.date){
+        if(data.date.hasOwnProperty(k)) {
+          var df = new Date(data.date[k]);
           labelsFormatted.push(df.yyyymmddhhmm());
         }
       }
 
-      var json = {
-        "series": ["SeriesA", "SeriesB"],
-        "data":[data1, data2],
-        "labels": labelsFormatted
-      };
+      if(!lastFilters || !lastFilters.hasOwnProperty("parameters"))
+        return;
 
-      $scope.chartInfo = json;
+      var info = {};
+      var parameterName = null;
+
+      for(var k in lastFilters.parameters){
+        parameterName = lastFilters.parameters[k]["id"];
+        info = data[parameterName];
+        if(!info)
+          continue;
+
+        loadDataset(labelsFormatted, info, parameterName);
+      }
+      //
+      // var json = {
+      //   "series": ["SeriesA", "SeriesB"],
+      //   "data":[data1, data2],
+      //   "labels": labelsFormatted
+      // };
+      //
+      // $scope.chartInfo = json;
 
       $scope.getDataEnabled = true;
 

@@ -14,11 +14,27 @@ exports.getDataSets = function getDataSets(req, res){
         model: models.Timestamp, attributes: ['id', "markTimestamp"]
     }];
 
-    if(params.hasOwnProperty("sensor") || params.hasOwnProperty("Sensor")){
-        console.log("%j", includeElement[0]);
-        includeElement[0]["where"] ={
-            "name": params.sensor
-        };
+    if(params.hasOwnProperty("sensors")){
+
+        if(Object.prototype.toString.call(params.sensors) === '[object Array]'){
+
+            var arr = [];
+            for(var k in params.sensors){
+                if(params.sensors.hasOwnProperty(k)) {
+                    arr.push({
+                        "name": params.sensors[k]
+                    });
+                }
+            }
+
+            includeElement[0]["where"] = {
+                "$or" : arr
+            }
+        }else{
+            includeElement[0]["where"] ={
+                "name": params.sensors
+            };
+        }
     }
 
     var attrs = [];
