@@ -24,6 +24,10 @@ angular.module('starter').controller('MainCtrl', function($scope, $http, $mdSide
     getData();
   };
 
+  function loadDataset(){
+    
+  }
+
   function getData(){
 
     $scope.getDataEnabled = false;
