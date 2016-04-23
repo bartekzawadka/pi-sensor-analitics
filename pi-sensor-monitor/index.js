@@ -24,3 +24,4 @@ models.sequelize.sync().then(function(){
 });
 
 require('./monitor');
+require('./api/common/utils');

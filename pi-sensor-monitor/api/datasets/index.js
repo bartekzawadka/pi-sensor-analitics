@@ -78,6 +78,8 @@ exports.getDataSets = function getDataSets(req, res){
 
         var sensorData = {};
 
+        var dates = [];
+
         for(var key in item){
             if(item.hasOwnProperty(key)) {
                 for (var fieldKey in attrs) {
@@ -103,9 +105,11 @@ exports.getDataSets = function getDataSets(req, res){
                     }
                 }
 
-                resData["date"].push(item[key]["Timestamp"]["markTimestamp"]);
+                dates.push(item[key]["Timestamp"]["markTimestamp"]);
             }
         }
+
+        resData["date"] = dates.getUnique();
 
         res.send(resData);
     }).catch(function(error){
