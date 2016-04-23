@@ -1,38 +1,37 @@
 /**
  * Created by barte_000 on 2016-04-22.
  */
-angular.module('starter').controller('SideNavCtrl', function($scope, $mdSidenav, SettingsService){
+angular.module('starter').controller('SideNavCtrl', function($scope, $mdSidenav, FiltersService){
+
+  var filters = FiltersService.getFilters();
+
+  $scope.dateFrom = filters.dateFrom;
+  $scope.dateTo = filters.dateTo;
+  $scope.parameters = [];
+  $scope.sensors = [];
+
+  FiltersService.subscribeFiltersUpdated($scope, function(scope, data) {
+    $scope.parameters = data.parameters;
+    $scope.sensors = data.sensors;
+    $scope.dateFrom = data.dateFrom;
+    $scope.dateTo = data.dateTo;
+  });
+
+  FiltersService.fetchFilterValues();
+
   $scope.close = function(){
     $mdSidenav('sn').close();
   };
 
-  var currentDate = new Date();
-  currentDate.setMonth(currentDate.getMonth() - 1);
-  $scope.dateFrom = currentDate;
-  $scope.dateTo = new Date();
-
-  $scope.settings = [];
-  $scope.sensors = [];
-
-  SettingsService.subscribeParameters($scope, function(scope, data){
-    $scope.settings = data;
-  });
-
-  SettingsService.subscribeSensors($scope, function(scope, data){
-    $scope.sensors = data;
-  });
-
-  SettingsService.getParameters();
-  SettingsService.getSensors();
-
   $scope.ok = function(){
-    $scope.fieldsToQuery = [];
-    for(var k in $scope.settings){
-      if($scope.settings[k]["enabled"]) {
-        $scope.fieldsToQuery.push($scope.settings[k]["name"]);
-      }
-    }
-    $scope.getData();
+
+    var filters = FiltersService.getFilters();
+    filters.dateFrom = $scope.dateFrom;
+    filters.dateTo = $scope.dateTo;
+    filters.parameters = $scope.parameters;
+    filters.sensors = $scope.sensors;
+
+    FiltersService.updateFilters(filters);
     $mdSidenav('sn').close();
   }
 });

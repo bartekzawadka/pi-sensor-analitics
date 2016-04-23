@@ -27,7 +27,7 @@
           Dane do wykresów
           <md-tooltip>Wybierz zestawy danych do wykresów</md-tooltip>
         </md-subheader>
-        <md-list-item ng-repeat="setting in settings">
+        <md-list-item ng-repeat="setting in parameters">
           <p> {{ setting.name }} </p>
           <md-switch class="md-warn" ng-model="setting.enabled"></md-switch>
         </md-list-item>

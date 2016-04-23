@@ -1,10 +1,14 @@
 /**
  * Created by barte_000 on 2016-04-22.
  */
-angular.module('starter').controller('MainCtrl', function($scope, $http, $mdSidenav, SettingsService){
+angular.module('starter').controller('MainCtrl', function($scope, $http, $mdSidenav, FiltersService){
 
   $scope.getDataEnabled = true;
   $scope.fieldsToQuery = [];
+
+  FiltersService.subscribeFiltersUpdated($scope, function(){
+    getData();
+  });
 
   function buildToggler(navID) {
     return function() {
@@ -16,41 +20,31 @@ angular.module('starter').controller('MainCtrl', function($scope, $http, $mdSide
 
   $scope.toggleMenu = buildToggler('sn');
 
-  var query = {
-    "arguments": {
-      "dateFrom": new Date('2016-04-20').toISOString(),
-      "dateTo": new Date('2016-04-21').toISOString(),
-      "fields": ["temperature", "humidity"],
-      //"sensor":"Sensor1"
-    }
-  };
-
   $scope.getData = function(){
     getData();
   };
 
-  getData();
-
   function getData(){
-
-    console.log("GET DATA FIRED!");
 
     $scope.getDataEnabled = false;
 
     var fieldsToQuery = [];
-    var lastSettings = SettingsService.getLastSettings();
-    for(var k in lastSettings){
-      if(lastSettings.hasOwnProperty(k)){
-        if(lastSettings[k]["enabled"]){
-          fieldsToQuery.push(lastSettings[k]["id"]);
+    var lastFilters = FiltersService.getFilters();
+    if(!lastFilters.parameters)
+      return;
+
+    for(var k in lastFilters.parameters){
+      if(lastFilters.parameters.hasOwnProperty(k)){
+        if(lastFilters.parameters[k]["enabled"]){
+          fieldsToQuery.push(lastFilters.parameters[k]["id"]);
         }
       }
     }
 
     var query = {
       "arguments": {
-        "dateFrom": $scope.dateFrom,
-        "dateTo": $scope.dateTo,
+        "dateFrom": lastFilters.dateFrom,
+        "dateTo": lastFilters.dateTo,
         "fields": fieldsToQuery
       }
     };
