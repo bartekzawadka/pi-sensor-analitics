@@ -6,7 +6,7 @@ var models = require('./models');
 var nconf = require('nconf');
 var path = require('path');
 
-nconf.file(path.join('config', 'config.json'));
+nconf.file(path.join(__dirname, 'config', 'config.json'));
 
 nconf.defaults({
    "pi-sensor-service" : {
