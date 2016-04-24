@@ -27,6 +27,11 @@
     {
       "platform": "android",
       "locator": "browser"
+    },
+    {
+      "platform": "browser",
+      "version": "",
+      "locator": "browser"
     }
   ]
 }
