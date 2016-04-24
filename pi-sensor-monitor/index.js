@@ -4,10 +4,11 @@
 var server = require('./server');
 var models = require('./models');
 var nconf = require('nconf');
+var path = require('path');
 
 var port = Number(process.env.SERVER_PORT) ||  8080;
 
-nconf.file("config\\config.json");
+nconf.file(path.join('config', 'config.json'));
 
 nconf.defaults({
    "pi-sensor-service" : {

@@ -1,7 +1,8 @@
 /**
  * Created by barte_000 on 2016-04-12.
  */
-var models = require('../../models');
+var path = require('path');
+var models = require(path.join('../', '../', 'models'));
 var seq = require('sequelize');
 
 exports.getDataSets = function getDataSets(req, res){
