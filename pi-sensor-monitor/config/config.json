@@ -23,7 +23,7 @@
     "dialect": "postgres",
     "timezone": "Poland"
   },
-  "registration-enabled": false,
+  "registration-enabled": true,
   "pi-sensor-service" : {
     "address": "192.168.1.106",
     "port": "888",
