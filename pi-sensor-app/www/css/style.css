@@ -49,3 +49,10 @@ md-list-item ._md-list-item-inner > ._md-list-item-inner > p {
 .side-menu-list {
   padding: 0;
 }
+
+.chart-title {
+  text-transform: uppercase;
+  color: gray;
+  padding: 0;
+  margin: 0;
+}
