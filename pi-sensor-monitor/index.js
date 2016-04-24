@@ -6,8 +6,6 @@ var models = require('./models');
 var nconf = require('nconf');
 var path = require('path');
 
-var port = Number(process.env.SERVER_PORT) ||  8080;
-
 nconf.file(path.join('config', 'config.json'));
 
 nconf.defaults({
@@ -15,8 +13,14 @@ nconf.defaults({
       "address": "192.168.1.106",
       "port": "888",
       "request-frequency-cron": "0 */10 * * * *"
-   }
+   },
+   "server-port": 8080
 });
+
+var port = Number(process.env.SERVER_PORT);
+if(!port){
+   port = nconf.get("server-port");
+}
 
 models.sequelize.sync().then(function(){
    server.listen(port, function(){
