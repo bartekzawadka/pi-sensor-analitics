@@ -10,10 +10,10 @@ angular.module('starter').factory('FiltersService', function($rootScope, $http, 
   var fetchFilterValues = function(){
 
     $q.all([$http({
-      url: "http://localhost:8080/api/parameters",
+      url: applicationConfig.piSensorMonitorAddress + "api/parameters",
       method: 'GET'}
     ), $http({
-      url: "http://localhost:8080/api/sensors",
+      url: applicationConfig.piSensorMonitorAddress + "api/sensors",
       method: 'GET'})]).then(function(data){
       if(data[0] && data[0].data && data[0].data.length>0) {
 

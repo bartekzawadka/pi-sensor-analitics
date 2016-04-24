@@ -1,7 +1,7 @@
 /**
  * Created by barte_000 on 2016-04-22.
  */
-angular.module('starter').controller('MainCtrl', function($scope, $http, $mdSidenav, FiltersService){
+angular.module('starter').controller('MainCtrl', function($scope, $http, $mdSidenav, FiltersService, $rootScope){
 
   $scope.getDataEnabled = true;
   $scope.fieldsToQuery = [];
@@ -104,35 +104,14 @@ angular.module('starter').controller('MainCtrl', function($scope, $http, $mdSide
     }
 
     $http({
-      url: "http://localhost:8080/api/datasets/",
+      url: applicationConfig.piSensorMonitorAddress + "api/datasets/",
       method: 'GET',
       data: query,
       body: query,
       params: query,
       headers: {'Content-Type':'application/json'}
     }).then(function(value){
-      //
-      // var data1 = [];
-      // var data2 = [];
-      // var labels = [];
-      //
-      // for(var i in value.data){
-      //   if(value.data.hasOwnProperty(i)) {
-      //
-      //     if(value.data[i]["Sensor"]["name"]){
-      //       var n = value.data[i]["Sensor"]["name"];
-      //       if(n == "Sensor1"){
-      //         data1.push(value.data[i]["temperature"]);
-      //         labels.push(value.data[i]["updatedAt"]);
-      //       }else{
-      //         data2.push(value.data[i]["temperature"]);
-      //       }
-      //
-      //     }
-      //
-      //   }
-      // }
-
+      
       resetCharts();
 
       var data = value.data;
