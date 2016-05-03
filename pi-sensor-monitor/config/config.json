@@ -27,7 +27,8 @@
   "pi-sensor-service" : {
     "address": "192.168.1.106",
     "port": "888",
-    "request-frequency-cron": "0 */10 * * * *"
+    "request-frequency-cron": "0 */10 * * * *",
+    "fan-controller-cron": "0 * * * * *"
   },
   "server-port": 888
 }

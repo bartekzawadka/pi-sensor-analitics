@@ -7,6 +7,7 @@ var models = require('../models');
 var nconf = require('nconf');
 var util = require('util');
 var sequelize = require('sequelize');
+var fanControl = require('./fan-control');
 
 var client = restify.createJsonClient({
     url: util.format("http://%s:%s",nconf.get("pi-sensor-service:address"), nconf.get("pi-sensor-service:port"))
@@ -16,7 +17,7 @@ if(nconf.get("registration-enabled")) {
 
     console.log("PiSensorMonitor registration module started");
 
-    //"request-frequency-cron": "0 */10 * * * *"
+    //"request-frequency-cron": "0 0 * * * *"
     new cronJob(nconf.get("pi-sensor-service:request-frequency-cron"), function(){
         client.get('/get_temp_hum', function (err, req, res, obj) {
 
@@ -38,6 +39,25 @@ if(nconf.get("registration-enabled")) {
         });
     }, null, true);
 }
+
+// Monitor controlling fans speed and number
+new cronJob(nconf.get("pi-sensor-service:fan-controller-cron"), function(){
+   client.get('/get_temp_hum', function(err, req, res, obj){
+      if(err){
+          console.log(err);
+          return;
+      }
+
+       if(!obj){
+           return;
+       }
+
+       console.log('CRON:');
+       console.log("%j", obj);
+       
+       fanControl.calculateFansParameters(client, obj);
+   });
+}, null, true);
 
 function writeSensorData(sensorName, data, timestampId){
     models.Sensor.findOne({where: sequelize.where(sequelize.fn('lower', sequelize.col('name')), sensorName.toLowerCase()), attributes: ['id']}).then(function(sensorObj){
@@ -84,7 +104,9 @@ function writeLogRecord(key, obj, sensorId, timestampId) {
         "SensorId": sensorId,
         "TimestampId": timestampId,
         temperature: obj[key].temperature,
-        humidity: obj[key].humidity
+        humidity: obj[key].humidity,
+        activeFansNo: fanControl.getLastNumberOfFans(),
+        rpm: fanControl.getLastRpm()
     }).catch(function(error){
         console.log("%s failed!", sensor);
         console.log(error);
