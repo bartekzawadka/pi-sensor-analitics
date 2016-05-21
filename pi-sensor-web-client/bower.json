@@ -1,0 +1,20 @@
+{
+  "name": "pi-sensor-web-client",
+  "description": "PiSensorMonitor web client application",
+  "main": "index.html",
+  "authors": [
+    "git <kontakt@bartoszzawadka.pl>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/bartekzawadka/pi-sensor-analitics",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.5"
+  }
+}
