@@ -1,0 +1,9 @@
+<md-content flex class="md-padding">
+  <div class="graph-display" ng-repeat="chart in charts" layout-padding>
+    <div class="chart-title" layout="row" layout-align="center center" flex>
+      <b>{{chart.name}}</b>
+    </div>
+    <canvas id="chart.name" class="chart chart-line" chart-data="chart.data" chart-labels="chart.labels" chart-series="chart.series" chart-legend="true"></canvas>
+  </div>
+</md-content>
+

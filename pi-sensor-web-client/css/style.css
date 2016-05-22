@@ -1,0 +1,58 @@
+/* Empty. Add your own CSS if you like */
+md-toolbar md-icon.md-default-theme {
+  color: white;
+}
+
+.toolbar span {
+  color: white;
+}
+
+.md-datepicker-input-container {
+  width: 100%;
+  margin-left: 0px;
+}
+
+md-divider {
+  margin-top: 0;
+  margin-bottom: 0; }
+md-list {
+  padding-top: 0; }
+md-list-item > p,
+md-list-item > ._md-list-item-inner > p,
+md-list-item ._md-list-item-inner > p,
+md-list-item ._md-list-item-inner > ._md-list-item-inner > p {
+  -webkit-user-select: none;
+  /* Chrome all / Safari all */
+  -moz-user-select: none;
+  /* Firefox all */
+  -ms-user-select: none;
+  /* IE 10+ */
+  user-select: none;
+  /* Likely future */ }
+
+.side-menu {
+}
+
+.side-menu-dates {
+  /*padding: 0 16px;*/
+}
+
+.side-menu md-divider {
+  margin-top: 5px;
+  margin-bottom: 0; }
+
+.side-menu md-list-item md-switch{
+  margin: 0;
+  padding: 0;
+}
+
+.side-menu-list {
+  padding: 0;
+}
+
+.chart-title {
+  text-transform: uppercase;
+  color: gray;
+  padding: 0;
+  margin: 0;
+}

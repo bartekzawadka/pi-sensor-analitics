@@ -1,0 +1,21 @@
+<md-toolbar class="md-primary toolbar">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleMenu()">
+      <md-tooltip>
+        Menu boczne
+      </md-tooltip>
+      <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+    </md-button>
+    <span flex></span>
+    <h2>
+      <span>PiSensorAnalytics</span>
+    </h2>
+    <span flex></span>
+    <md-button class="md-icon-button" aria-label="Refresh" ng-click="getData()" ng-enabled="!getDataEnabled">
+      <md-tooltip>
+        Odśwież
+      </md-tooltip>
+      <md-icon md-svg-icon="img/icons/refresh.svg"></md-icon>
+    </md-button>
+  </div>
+</md-toolbar>
