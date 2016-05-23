@@ -3,10 +3,9 @@
  */
 angular.module('starter').factory('FiltersService', function($rootScope, $http, $q){
 
-  var d = new Date();
-  //currentDate.setMonth(currentDate.getDay() - 1);
-  var currentDate = new Date(d.getFullYear(), d.getMonth(), d.getDay()-1);
-  var filters = {"parameters": [], "sensors": [], "dateFrom": currentDate, "dateTo": new Date()};
+  var dateFrom = new Date();
+  dateFrom.setDate(dateFrom.getDate() - 1);
+  var filters = {"parameters": [], "sensors": [], "dateFrom": dateFrom, "dateTo": new Date()};
 
   var fetchFilterValues = function(){
 
